@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: int_order_margins
+    description: >
+      Joins orders, items, products, and supply costs to calculate revenue,
+      supply cost, and gross profit per order. One row per order.
+
+    columns:
+      - name: order_id
+        description: Primary key — unique identifier for each order.
+        tests:
+          - not_null
+          - unique
+
+      - name: order_customer_id
+        description: Foreign key to the customer who placed the order.
+        tests:
+          - not_null
+
+      - name: order_ordered_at
+        description: Timestamp when the order was placed.
+
+      - name: order_total
+        description: Total amount charged to the customer including tax.
+
+      - name: order_revenue
+        description: Product revenue for the order before tax.
+        tests:
+          - not_null
+
+      - name: order_supply_cost
+        description: Total supply cost for all items in the order.
+        tests:
+          - not_null
+
+      - name: order_gross_profit
+        description: Product revenue minus total supply costs for all items in the order.
+        tests:
+          - not_null

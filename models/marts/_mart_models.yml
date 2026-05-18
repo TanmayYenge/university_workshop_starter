@@ -1,0 +1,46 @@
+version: 2
+
+models:
+  - name: fct_customer_profitability
+    description: >
+      One row per customer summarising their total orders, revenue, supply cost,
+      and gross profit contribution. Used to answer: which customers generate
+      the most profit for Jaffle Shop?
+
+    tests:
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "total_gross_profit <= total_revenue"
+
+    columns:
+      - name: customer_id
+        description: Primary key — unique identifier for each customer.
+        tests:
+          - not_null
+          - unique
+
+      - name: customer_name
+        description: Full name of the customer.
+
+      - name: total_orders
+        description: Total number of orders placed by the customer.
+        tests:
+          - not_null
+
+      - name: total_revenue
+        description: Sum of product revenue before tax for the customer.
+        tests:
+          - not_null
+
+      - name: total_supply_cost
+        description: Sum of supply costs across all orders for the customer.
+        tests:
+          - not_null
+
+      - name: total_gross_profit
+        description: Sum of gross profit across all orders, calculated as revenue minus supply costs.
+        tests:
+          - not_null
+
+      - name: avg_order_gross_profit
+        description: Average gross profit per order for the customer.
